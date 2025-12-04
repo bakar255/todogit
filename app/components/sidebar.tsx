@@ -13,6 +13,7 @@ export default function Sidebar() {
 
 
     return (
+        
         <div className="flex flex-col w-20 space-y-5 bg-[#313131] items-center  ">  
            {Icons.map((item) =>         
           <div key={item.id} className=" mt-5 p-3 border-2 border-gray-300 rounded-lg bg-gray-400 cursor-pointer hover:border-gray-400">

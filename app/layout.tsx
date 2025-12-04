@@ -8,6 +8,7 @@ export default function RootLayout({
   return (
     <html>
       <body
+      className=""
       >
         {children}
       </body>
