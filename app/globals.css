@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.btn-gray {
+  @apply text-gray-300 border-gray-400 cursor-pointer hover:border-gray-500;
+}
