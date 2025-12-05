@@ -2,10 +2,11 @@
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import Modal from "../Modal";
 
 export default function Dashboard() {
-  
-  const [visible, IsVisible ] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   return (
 
@@ -23,7 +24,11 @@ export default function Dashboard() {
 
             <span className="text-gray-400 text-sm font-bold cursor-pointer">Filter</span>
             
-          <button className="flex items-center cursor-pointer rounded-full bg-blue-500 text-white px-4 py-2 ml-3">  New Task <Plus size={20} className="ml-2" /></button>
+          <button 
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center cursor-pointer rounded-full bg-blue-600/30 shadow-lg text-white px-4 py-2 ml-3"
+          >  
+          New Task <Plus size={20} className="ml-2" /></button>
          
          </div>
       </div>
@@ -37,15 +42,15 @@ export default function Dashboard() {
           <div className="flex justify-between items-center w-full mb-4">
 
             <div>
-             <span className="text-sm font-bold text-gray-200">To do(0)</span>
+             <span className="text-sm font-bold text-black">To do(0)</span>
             </div>
 
             <div>
-              <button className="flex items-center space-x-2 text-gray-200 cursor-pointer hover:text-gray-100">
+              <button className="flex items-center space-x-2 text-white cursor-pointer shadow-lg bg-blue-600/30  rounded-full p-2  hover:text-gray-100">
+                <span className="text-white">Add New Tasks</span>
                 <Plus size={23}
-                className="bg-gray-500 py-1 rounded-full"
+                className=" rounded-full"
                 /> 
-                <span>Add New Tasks</span>
               </button>
             </div>
 
@@ -61,6 +66,14 @@ export default function Dashboard() {
 
   
       </div>
+
+      {
+        <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)} 
+        >
+        </Modal>
+      }
       
     </div>
   );
