@@ -19,6 +19,13 @@
   }
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -27,4 +34,27 @@ body {
 
 .btn-gray {
   @apply text-gray-300 border-gray-400 cursor-pointer hover:border-gray-500;
+}
+
+.text-gray {
+  @apply text-gray-300 text-sm font-bold
+}
+
+.kanban-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  min-height: 256px;
+  padding: 16px;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+}
+
+.card-kanban {
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  background-color: #2a2a2a;
+  border-radius: 0.40rem;
 }

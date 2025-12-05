@@ -6,10 +6,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
-      <body
-      className=""
-      >
+    <html className="h-full w-full">
+    <body className="h-full w-full m-0 p-0">
         {children}
       </body>
     </html>
