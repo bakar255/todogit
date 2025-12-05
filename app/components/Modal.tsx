@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 
 
 interface ModalProps {
@@ -20,8 +21,8 @@ export default function Modal ({isOpen, onClose, children } : ModalProps) {
                 {children}
                 <button
                  onClick={onClose}
-                className="absolute top-2 right-4 text-gray-500 hover:text-gray-700 text-xl"
-                >x</button>
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+                ><X /> </button>
             </div>
         </div>
     )
