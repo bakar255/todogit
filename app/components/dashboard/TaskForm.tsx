@@ -4,7 +4,6 @@ import { Ellipsis, GripHorizontal, Grip } from "lucide-react";
 import { useState } from "react";
 
 // export type TaskPriority = 'low' | 'medium' |'high';
-export type TaskStatus = 'todo' | 'in-progress' | 'done';
 
 
 
@@ -24,8 +23,8 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
 
     const [title, setTitle ] = useState("");
     const [description, setDescription] = useState("");
-    const [priority,  setPriority] = useState("");
-    const [Date, setDate ] = useState("");
+    const [priority,  setPriority] = useState("high");
+    const [date, setDate ] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -34,7 +33,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
         title: title,
         description: description,
         priority: priority,
-        date: Date,
+        date: date,
       }
 
       onSubmit(newTask);
@@ -49,7 +48,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
         <div className="mt-4">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Créer une nouvelle tâche</h2>
         
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-black mb-2">
               Titre de la tâche
@@ -89,11 +88,11 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
               id="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
-              className="w-full px-2 py-3 border-1 rounded-lg border-gray-300"
+              className="w-full px-2 py-3 border rounded-lg border-gray-300"
             >
-              <option value="Low" className=""> <Ellipsis /> Low</option>
-              <option value="Medium"> <GripHorizontal  className="bg-amber-400"/> Medium</option>
-              <option value="High" selected>High</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select>
           </div>
 
@@ -103,10 +102,10 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
             </label>
             <input
               type="date"
-              id="Date"
-              value={Date}
+              id="dueDate"
+              value={date}
               onChange={(e) => setDate(e.target.value)}
-              name="Date"
+              name="dueDate"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>

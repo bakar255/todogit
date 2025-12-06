@@ -1,30 +1,50 @@
 'use client'
 
-import { Plus, Ellipsis, GripHorizontal, Grip,  } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
 import TaskForm from "./TaskForm";
 import TaskCard from "./TaskCard";
 
+
+type TaskData = {
+  title: string;
+  description: string;
+  priority: string;
+  date: string;
+};
+
+type Task = TaskData & {
+  id: string;
+  status: 'todo' | 'inProgress' | 'done';
+  createdAt: Date;
+}
+
 export default function Dashboard() {
 
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [tasks, setTasks ] = useState([]);
+  const [tasks, setTasks ] = useState<Task[]>([]);
 
-  const handleTaskSubmit = (taskData) => {
-    console.log("Données : ", taskData);
+  const handleTaskSubmit = (TaskData: TaskData) => {
+    console.log("Données : ", TaskData);
 
-    const newTask = {
-      ...taskData,
+    const newTask: Task = {
+      ...TaskData,
       id: Date.now().toString(),
+      status: "todo" as const,
+      createdAt: new Date(),
     }
     // Add lists 
     setTasks([...tasks, newTask]);
 
     setIsModalOpen(false);
   }
+
+  const todoTasks = tasks.filter(task => task.status === 'todo');
+  const taskInProgress = tasks.filter (task => task.status === 'inProgress');
+  const taskDone = tasks.filter (task => task.status === 'done');
 
 
   return (
@@ -57,22 +77,31 @@ export default function Dashboard() {
       <div className="flex cols-span-3 space-x-4 t-4 justify-center">
 
       <KanbanCol
-      title =  "To do"
-      count={0}
+      title="To do"
+      count={todoTasks.length}
       onAddTask={() => setIsModalOpen(true)} 
       >
+        {todoTasks.map(task => (
+          <TaskCard key={task.id} task={task}/>
+        ))}
       </KanbanCol>
 
       <KanbanCol
-      title = "In progress"
-      count={0}
+      title="In progress"
+      count={taskInProgress.length}
       >
+        {taskInProgress.map(task => (
+          <TaskCard key={task.id} task={task} />
+        ))}
       </KanbanCol>
 
       <KanbanCol
-      title = "Done"
-      count={0}
+      title="Done" 
+      count={taskDone.length}
       >
+        {taskDone.map(task => (
+          <TaskCard key={task.id} task={task} />
+        ))}
       </KanbanCol>
 
      </div>
