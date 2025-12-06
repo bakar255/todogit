@@ -1,12 +1,13 @@
 import { Plus } from "lucide-react";
 
 interface KanbanColProps {
-    count: number;
+    title: string; // To do
+    count: number; // (5)
     children: React.ReactNode;
     onAddTask?: () => void;
 }
 
-export default function KanbanCol({children, count, onAddTask}: KanbanColProps ) {
+export default function KanbanCol({children, count, title, onAddTask}: KanbanColProps ) {
 
     return (
 
@@ -15,7 +16,7 @@ export default function KanbanCol({children, count, onAddTask}: KanbanColProps )
         <div className="flex justify-between items-center w-full mb-4">
 
           <div>
-           <span className="text-sm font-bold text-black">To do({count})</span> {/* For each count of tasks */}
+           <span className="font-bold text-black"> {title} ({count})</span> {/* For each count of tasks */}
           </div>
 
           <div>

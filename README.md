@@ -3,3 +3,14 @@
 A beautiful dashboard where can overview your tasks.
 
 ![Tree.png](Tree.PNG)
+
+## Personal notes
+
+
+
+``
+KanbanColumns      
+      -> TaskCard 
+             -> TaskContent
+
+``

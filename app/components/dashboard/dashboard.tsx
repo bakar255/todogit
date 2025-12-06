@@ -3,6 +3,7 @@
 import { Plus, Ellipsis, GripHorizontal, Grip,  } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
+import KanbanCol from "./kanbanCol";
 
 export default function Dashboard() {
 
@@ -36,10 +37,29 @@ export default function Dashboard() {
 
       <div className="border border-gray-300 mt-4 w-full rounded-full "></div>
 
-      <div className="flex cols-span-3 space-x-4 t-4">
-        
-       
+      <div className="flex cols-span-3 space-x-4 t-4 justify-center">
 
+      <KanbanCol
+      title =  "To do"
+      count={0}
+      onAddTask={() => setIsModalOpen(true)} 
+      >
+      </KanbanCol>
+
+      <KanbanCol
+      title = "In progress"
+      count={0}
+      >
+      </KanbanCol>
+
+      <KanbanCol
+      title = "Done"
+      count={0}
+      >
+      </KanbanCol>
+
+     </div>
+        
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)} 
@@ -120,7 +140,6 @@ export default function Dashboard() {
         </div>
       </Modal>
       
-    </div>
     </div>
   );
 }
