@@ -15,7 +15,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
-    --foreground: rgb(12, 12, 12);
+    --foreground: rgb(102, 102, 102);
   }
 }
 
@@ -47,14 +47,13 @@ body {
   max-width: 400px;
   min-height: 256px;
   padding: 16px;
-  background-color: #dfdfdf;
-  border-radius: 10px;
+  background-color: #ececec;
+  border-radius: 5px;
 }
 
 .card-kanban {
   padding: 10px;
   width: 100%;
   min-height: 200px;
-  background-color: #bbbbbb;
   border-radius: 0.40rem;
 }

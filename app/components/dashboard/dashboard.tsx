@@ -7,7 +7,6 @@ import KanbanCol from "./kanbanCol";
 import TaskForm from "./TaskForm";
 import TaskCard from "./TaskCard";
 
-
 type TaskData = {
   title: string;
   description: string;
@@ -45,7 +44,6 @@ export default function Dashboard() {
   const todoTasks = tasks.filter(task => task.status === 'todo');
   const taskInProgress = tasks.filter (task => task.status === 'inProgress');
   const taskDone = tasks.filter (task => task.status === 'done');
-
 
   return (
 
