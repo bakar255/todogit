@@ -20,8 +20,9 @@ type Task = TaskData & {
   createdAt: Date;
 }
 
-export default function Dashboard() {
+// Main dashboard
 
+export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [tasks, setTasks ] = useState<Task[]>([]);

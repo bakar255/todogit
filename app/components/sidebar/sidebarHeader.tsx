@@ -1,6 +1,9 @@
 import Image from "next/image";
 
+// Function to display orgs's information in the sidebar
+
 export default function SidebarHeader() {
+  
   return (
     <div className="w-full px-2 mb-4">
       <div className="flex items-center space-x-3">

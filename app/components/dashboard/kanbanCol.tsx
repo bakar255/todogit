@@ -7,6 +7,9 @@ interface KanbanColProps {
     onAddTask?: () => void;
 }
 
+
+// Function to handle mutiple columns as To do, InProgress, Done
+
 export default function KanbanCol({children, count, title, onAddTask}: KanbanColProps ) {
 
     return (

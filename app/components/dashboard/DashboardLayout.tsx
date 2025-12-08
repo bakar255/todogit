@@ -1,6 +1,8 @@
 import Navbar from "../navbar";
 import Sidebar from "../sidebar/sidebar";
 
+// Layout to ensure best layout for the dashboard
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
  <div className="flex min-h-screen w-full">

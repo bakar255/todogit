@@ -7,6 +7,8 @@ interface ModalProps {
     children: React.ReactNode;
 }
 
+// Components to handle generic modals behaviors 
+
 export default function Modal ({isOpen, onClose, children } : ModalProps) {
     if(!isOpen) return null // return null
 

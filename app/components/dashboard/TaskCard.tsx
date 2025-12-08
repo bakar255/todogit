@@ -14,13 +14,19 @@ interface Task {
 
 interface TaskProps {
     task: Task;
+    onTouch: () => void;
 }
 
-export default function TaskCard({task}: TaskProps) {
+ // Component to handle Task card's content and descriptions
+
+export default function TaskCard({task, onTouch }: TaskProps) {
     const formatDate = useFormatDate();
 
     return(
-        <div className="bg-white rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition-shadow relative">
+        <div 
+        className="bg-white rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition-shadow relative cursor-pointer"
+        onClick={onTouch}
+        >
            <h3 className="text-lg font-bold text-black mb-2">{task.title}</h3>
            {task.description && (
                <p className="text-sm mb-2">{task.description}</p>
