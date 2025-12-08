@@ -1,15 +1,30 @@
+// Hook formater date.
+export function useFormatDate() {
+  const formatDate = (date?: Date | string, includeYear: boolean = false) => {
+    const dateObj =
+      date instanceof Date ? date : date ? new Date(date) : new Date();
 
-export function convertDate() {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
-    const formatDate = (date?: Date) => {
+    const month = months[dateObj.getMonth()];
+    const day = dateObj.getDate().toString().padStart(2, "0");
+    const year = dateObj.getFullYear();
 
-        const dateObj = date ? new Date(date) : new Date(); 
+    return includeYear ? `${day} ${month} ${year}` : `${day} ${month}`;
+  };
 
-        const months = ["Jan", "Feb", "Mar", "Avr", "Mai", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    }
-
-
-
-
+  return formatDate;
 }

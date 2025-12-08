@@ -1,3 +1,7 @@
+ 'use client'
+
+import { useFormatDate } from "../../hooks/convertDate";
+
 interface Task {
     id: string;
     title: string;
@@ -13,6 +17,8 @@ interface TaskProps {
 }
 
 export default function TaskCard({task}: TaskProps) {
+    const formatDate = useFormatDate();
+
     return(
         <div className="bg-white rounded-lg p-4 mb-3 shadow-sm hover:shadow-md transition-shadow relative">
            <h3 className="text-lg font-bold text-black mb-2">{task.title}</h3>
@@ -22,7 +28,9 @@ export default function TaskCard({task}: TaskProps) {
            <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-800">
                {task.priority}
            </span>
-           <span className="absolute right-4 bottom-4"></span>
+           <span className="absolute right-4 bottom-4 text-xs text-gray-500">
+               {formatDate(task.createdAt)}
+           </span>
         </div>
     )
 }
