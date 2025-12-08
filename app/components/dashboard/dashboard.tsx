@@ -63,9 +63,9 @@ export default function Dashboard() {
             
           <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center cursor-pointer rounded-full bg-blue-600/30 shadow-lg text-white px-4 py-2 ml-3"
+          className="flex items-center cursor-pointer rounded-full bg-blue-600/30 shadow-lg text-white px-2 py-2"
           >  
-          New Task <Plus size={20} className="ml-2" /></button>
+           <Plus size={20} className="" /></button>
          
          </div>
       </div>
