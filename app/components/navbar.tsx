@@ -9,18 +9,23 @@ export default function Navbar() {
 
   return (
     <div className="w-full h-16 flex items-center justify-end px-6">
-        
+
         <div className="space-x-3 mr-3 flex">
-        <Search size={20} className="" />
-        <Bell size={20} className="" />
+        <Search size={20} className="cursor-pointer" />
+        <Bell size={20} className="cursor-pointer" />
         </div>
       
       <div className="flex space-x-2 cursor-pointer rounded-sm p-2">
-        <Calendar size={20} />
-        <span className="text-sm font-bold mr-2">{formatDate(undefined, true)}</span>
-      </div>
+        
+  <div className="icon-container flex-center-center rounded overflow-hidden">
+  <div className="text-center full-height calendar rounded bg-white">
+      <div className="nowrap text-sm font-bold bg-gray-300">Dec.</div>
+      <div className="text-sm text-gray-700 font-bold">09</div>
+  </div>
+  </div>
 
-      <div className="w-8 h-8 rounded-full bg-gray-600"></div>
+      </div>
+      <div className="w-9 h-9 rounded-full bg-gray-600"></div>
     </div>
   );
 }
