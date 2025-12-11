@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 
 
 interface ModalProps {
-    isOpen: boolean;
+    isOpen?: boolean;
     onClose: () => void;
     children: React.ReactNode;
 }

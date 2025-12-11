@@ -6,6 +6,7 @@ import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
 import TaskForm from "./TaskForm";
 import TaskCard from "./TaskCard";
+import TaskDetailModal from "./TaskCardDetails";
 
 type TaskData = {
   title: string;
@@ -26,6 +27,11 @@ export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [tasks, setTasks ] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+
+  const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
+    setSelectedTask(task)
+  }
 
   const handleTaskSubmit = (TaskData: TaskData) => {
     console.log("Données : ", TaskData);
@@ -81,7 +87,7 @@ export default function Dashboard() {
       onAddTask={() => setIsModalOpen(true)} 
       >
         {todoTasks.map(task => (
-          <TaskCard key={task.id} task={task}/>
+          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
         ))}
       </KanbanCol>
 
@@ -90,7 +96,7 @@ export default function Dashboard() {
       count={taskInProgress.length}
       >
         {taskInProgress.map(task => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)} />
         ))}
       </KanbanCol>
 
@@ -99,7 +105,7 @@ export default function Dashboard() {
       count={taskDone.length}
       >
         {taskDone.map(task => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
         ))}
       </KanbanCol>
 
@@ -116,6 +122,13 @@ export default function Dashboard() {
 
       </Modal>
       
+      <TaskDetailModal 
+      task={selectedTask}
+      isOpen={!!selectedTask}
+      onClose={() => taskOpen(null)}
+      >
+
+      </TaskDetailModal>
     </div>
   );
 }

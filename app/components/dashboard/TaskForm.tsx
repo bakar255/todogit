@@ -5,8 +5,6 @@ import { useState } from "react";
 
 // export type TaskPriority = 'low' | 'medium' |'high';
 
-
-
 interface TaskProps {
   onSubmit: (taskData: {
     title: string;

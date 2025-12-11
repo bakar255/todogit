@@ -15,18 +15,15 @@ export default function KanbanCol({children, count, title, onAddTask}: KanbanCol
     return (
 
         <div className="kanban-col relative w-full max-w-md mt-4">
-
-        <div className="flex justify-between items-center w-full mb-4">
+          <div className="flex justify-between items-center w-full mb-4">
 
           <div>
            <span className="font-bold"> {title} ({count})</span> {/* For each count of tasks */}
           </div>
 
-          <div>
-
+           <div>
           </div>
         </div>
-
         <div className="card-kanban w-full"> {/* Children Tasks */}
             {children}
         </div>
