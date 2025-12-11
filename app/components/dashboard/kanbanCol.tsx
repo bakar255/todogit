@@ -11,6 +11,11 @@ interface KanbanColProps {
 
 export default function KanbanCol({children, count, title, onAddTask, Icon}: KanbanColProps ) {
 
+  const handleClick = (title: title) => {
+    
+
+  } 
+
     return (
 
         <div className="kanban-col relative w-full max-w-md mt-4">

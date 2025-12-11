@@ -4,9 +4,11 @@ import { SquareLibrary ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
-import TaskForm from "./TaskForm";
-import TaskCard from "./TaskCard";
-import TaskDetailModal from "./TaskCardDetails";
+import TaskForm from "../task/TaskForm";
+import TaskCard from "../task/TaskCard";
+import TaskDetailModal from "../task/TaskCardDetails";
+
+type Priority = 'low' | 'medium' | 'high';
 
 type TaskData = {
   title: string;

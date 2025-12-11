@@ -3,12 +3,15 @@
 import Modal from "../Modal";
 import { Calendar, Flag, FileText } from "lucide-react";
 import { useFormatDate } from "@/app/utils/convertDate";
+import PriorityBadge from "./PriorityBadge";
+
+export type Priority = 'low' | 'medium' | 'high';
 
 interface Task {
     id: string;
     title: string;
     description: string;
-    priority: string;
+    priority: Priority;
     date: string;
     status: 'todo' | 'inProgress' | 'done';
     createdAt: Date;
@@ -65,7 +68,7 @@ export default function TaskDetailModal({ task, isOpen, onClose }: TaskDetailMod
                         <h3 className="font-semibold text-gray-900">Priorité</h3>
                     </div>
                     <span className="text-sm px-3 py-1 rounded bg-blue-100 text-blue-800 ml-6">
-                        {task.priority}
+                        <PriorityBadge priority={task.priority} />
                     </span>
                 </div>
 
