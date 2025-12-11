@@ -47,7 +47,6 @@ body {
   max-width: 400px;
   min-height: 256px;
   padding: 16px;
-  background-color: #ececec;
   border-radius: 5px;
 }
 
@@ -63,7 +62,6 @@ body {
 }
 
 .icon-container {
-
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid gray;

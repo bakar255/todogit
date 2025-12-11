@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <div className="w-full h-16 flex items-center justify-end px-6">
 
-        <div className="space-x-3 mr-3 flex">
+        <div className="space-x-5 mr-3 flex">
         <Search size={20} className="cursor-pointer" />
         <Bell size={20} className="cursor-pointer" />
         </div>

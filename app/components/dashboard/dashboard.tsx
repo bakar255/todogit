@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus } from "lucide-react";
+import { SquareLibrary ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
@@ -17,7 +17,7 @@ type TaskData = {
 
 type Task = TaskData & {
   id: string;
-  status: 'todo' | 'inProgress' | 'done';
+  status: 'todo' | 'inProgress' | 'done' | 'backlog';
   createdAt: Date;
 }
 
@@ -51,18 +51,14 @@ export default function Dashboard() {
   const todoTasks = tasks.filter(task => task.status === 'todo');
   const taskInProgress = tasks.filter (task => task.status === 'inProgress');
   const taskDone = tasks.filter (task => task.status === 'done');
+  const taskBacklog = tasks.filter( task => task.status === 'backlog');
 
   return (
 
     <div className="pt-6">
 
       <div className="flex items-center space-x-5 relative">
-        <button
-         className="text-gray-500"
-        
-        >
-          Board View</button>
-        <button className="text-gray-500">Add view</button>
+        <button className=""> Board View</button>
 
           <div className="absolute right-0 ml-2 flex items-center space-x-4">
 
@@ -81,8 +77,21 @@ export default function Dashboard() {
 
       <div className="flex cols-span-3 space-x-4 t-4 justify-center">
 
+
       <KanbanCol
-      title="To do"
+      title="Backlog"
+      Icon={SquareLibrary}
+      count={todoTasks.length}
+      onAddTask={() => setIsModalOpen(true)} 
+      >
+        {taskBacklog.map(task => (
+          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
+        ))}
+      </KanbanCol>
+
+      <KanbanCol
+      title="Todo"
+      Icon={Circle}
       count={todoTasks.length}
       onAddTask={() => setIsModalOpen(true)} 
       >
@@ -93,6 +102,7 @@ export default function Dashboard() {
 
       <KanbanCol
       title="In progress"
+      Icon={Badge}
       count={taskInProgress.length}
       >
         {taskInProgress.map(task => (
@@ -102,6 +112,7 @@ export default function Dashboard() {
 
       <KanbanCol
       title="Done" 
+      Icon={BadgeCheck}
       count={taskDone.length}
       >
         {taskDone.map(task => (
