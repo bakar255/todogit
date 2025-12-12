@@ -7,6 +7,7 @@ import KanbanCol from "./kanbanCol";
 import TaskForm from "../task/TaskForm";
 import TaskCard from "../task/TaskCard";
 import TaskDetailModal from "../task/TaskCardDetails";
+import { kanbanColumns } from "./kanbanCol";
 
 type Priority = 'low' | 'medium' | 'high';
 
@@ -21,6 +22,7 @@ type Task = TaskData & {
   id: string;
   status: 'todo' | 'inProgress' | 'done' | 'backlog';
   createdAt: Date;
+  sector: string;
 }
 
 // Main dashboard
@@ -29,11 +31,19 @@ export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [tasks, setTasks ] = useState<Task[]>([]);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedCol, setSelectedCol] = useState<string | null >(null);
+
+
 
   const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
-    setSelectedTask(task)
+    setSelectedTask(task);
   }
+
+   const handleAddTask = (columnsId: string) => {
+    setSelectedCol(columnsId)
+    setIsModalOpen(true);
+   }
 
   const handleTaskSubmit = (TaskData: TaskData) => {
     console.log("Données : ", TaskData);
@@ -41,7 +51,8 @@ export default function Dashboard() {
     const newTask: Task = {
       ...TaskData,
       id: Date.now().toString(),
-      status: "todo" as const,
+      sector: selectedCol as "",
+      status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
       createdAt: new Date(),
     }
     // Add lists 
@@ -81,10 +92,11 @@ export default function Dashboard() {
 
 
       <KanbanCol
+      id="backlog"
       title="Backlog"
       Icon={SquareLibrary}
       count={todoTasks.length}
-      onAddTask={() => setIsModalOpen(true)} 
+      onAddTask={handleAddTask} 
       >
         {taskBacklog.map(task => (
           <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
@@ -92,10 +104,11 @@ export default function Dashboard() {
       </KanbanCol>
 
       <KanbanCol
+      id="todo"
       title="Todo"
       Icon={Circle}
       count={todoTasks.length}
-      onAddTask={() => setIsModalOpen(true)} 
+      onAddTask={handleAddTask}
       >
         {todoTasks.map(task => (
           <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
@@ -103,9 +116,11 @@ export default function Dashboard() {
       </KanbanCol>
 
       <KanbanCol
+      id="inProgress"
       title="In progress"
       Icon={Badge}
       count={taskInProgress.length}
+      onAddTask={handleAddTask}
       >
         {taskInProgress.map(task => (
           <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)} />
@@ -113,9 +128,11 @@ export default function Dashboard() {
       </KanbanCol>
 
       <KanbanCol
+      id="done"
       title="Done" 
       Icon={BadgeCheck}
       count={taskDone.length}
+      onAddTask={handleAddTask}
       >
         {taskDone.map(task => (
           <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>

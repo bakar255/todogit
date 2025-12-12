@@ -1,20 +1,23 @@
 import { Plus, Circle } from "lucide-react";
 
 interface KanbanColProps {
+    id: string;
     title: string; // To do
     count: number; // (5)
     children: React.ReactNode;
-    onAddTask?: () => void;
+    onAddTask?: (columnsId: string ) => void;
     Icon: React.ComponentType<{size?: number, className?: string}>
 }
+
+export const kanbanColumns =  [
+  {id: "backlog", title: "backlog",  },
+  {id: "Todo", title: "To do" },
+  {id: "inProgress", title: "inProgress"},
+  {id: "done", title: 'Done'},
+];
+
 // Function to handle mutiple columns as To do, InProgress, Done
-
-export default function KanbanCol({children, count, title, onAddTask, Icon}: KanbanColProps ) {
-
-  const handleClick = (title: title) => {
-    
-
-  } 
+export default function KanbanCol({children, id, count, title, onAddTask, Icon}: KanbanColProps ) {
 
     return (
 
@@ -28,7 +31,7 @@ export default function KanbanCol({children, count, title, onAddTask, Icon}: Kan
           </div>
 
           <div>
-            <Plus size={24} className="cursor-pointer" onClick={onAddTask} />
+            <Plus size={24} className="cursor-pointer" onClick={() => onAddTask?.(id)} />
           </div>
 
            <div>
@@ -39,6 +42,7 @@ export default function KanbanCol({children, count, title, onAddTask, Icon}: Kan
         </div>
       </div>
 
+      // Objectif : Permettre aux tâches d'apparaitre dans leur colonne respectif, pour chaque bouton PLUS selectionné
 
     );
 

@@ -12,6 +12,7 @@ interface Task {
     id: string;
     title: string;
     description: string;
+    sector: string;
     priority: Priority;
     date: string;
     status: 'todo' | 'inProgress' | 'done' | 'backlog';
@@ -36,7 +37,7 @@ export default function TaskCard({task, onTouch }: TaskProps) {
            <h3 className="text-black mb-2">{task.title}</h3>
             
             <div className="flex">
-            <span className="text-xs px-2 rounded py-1 border border-gray-200 bg-red bg-gray-100 text-gray-600 flex justify-center items-center mr-2"> <Circle size={15} className="mr-1"/> Todo</span>
+            <span className="text-xs px-2 rounded py-1 border border-gray-200 bg-red bg-gray-100 text-gray-600 flex justify-center items-center mr-2"> <Circle size={15} className="mr-1"/>  {task.sector} </span>
 
             <span className="text-xs px-2 py-1 w-30">
                <PriorityBadge priority={task.priority} />
