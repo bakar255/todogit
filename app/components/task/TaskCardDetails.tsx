@@ -4,18 +4,11 @@ import Modal from "../Modal";
 import { Calendar, Flag, FileText } from "lucide-react";
 import { useFormatDate } from "@/app/utils/convertDate";
 import PriorityBadge from "./PriorityBadge";
+import { Task } from "./TaskCard";
 
 export type Priority = 'low' | 'medium' | 'high';
 
-interface Task {
-    id: string;
-    title: string;
-    description: string;
-    priority: Priority;
-    date: string;
-    status: 'todo' | 'inProgress' | 'done';
-    createdAt: Date;
-}
+
 
 interface TaskDetailModalProps {
     task: Task | null ;

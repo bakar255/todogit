@@ -21,12 +21,12 @@ export default function KanbanCol({children, id, count, title, onAddTask, Icon}:
 
     return (
 
-        <div className="kanban-col relative w-full max-w-md mt-4">
-          <div className="flex justify-between items-center w-full mb-4">
+        <div className="kanban-col relative w-full max-w-md mt-4 bg-gray-100">
+          <div className="flex items-center w-full mb-4">
 
           <div className="flex space-x-3">
            <Icon size={24} className="" />
-           <span className="font-bold"> {title} </span>
+           <span className="text-sm font-medium text-foreground"> {title} </span>
             {/* For each count of tasks */}
           </div>
 

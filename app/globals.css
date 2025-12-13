@@ -44,10 +44,9 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   min-height: 256px;
-  padding: 16px;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .card-kanban {

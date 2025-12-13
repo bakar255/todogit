@@ -2,19 +2,19 @@
 
 import { useFormatDate } from "../../utils/convertDate";
 import PriorityBadge from "./PriorityBadge";
-import { SquareLibrary ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
-
+import { SignalLow } from "lucide-react";
 
 
 type Priority = 'low' | 'medium' | 'high';
 
-interface Task {
+export interface Task {
     id: string;
     title: string;
     description: string;
     sector: string;
     priority: Priority;
     date: string;
+    icon: React.ComponentType<{ className?: string, size?: string }>;
     status: 'todo' | 'inProgress' | 'done' | 'backlog';
     createdAt: Date;
 }
@@ -37,15 +37,15 @@ export default function TaskCard({task, onTouch }: TaskProps) {
            <h3 className="text-black mb-2">{task.title}</h3>
             
             <div className="flex">
-            <span className="text-xs px-2 rounded py-1 border border-gray-200 bg-red bg-gray-100 text-gray-600 flex justify-center items-center mr-2"> <Circle size={15} className="mr-1"/>  {task.sector} </span>
-
+            <span className="text-xs px-2 rounded py-1 border border-gray-200 bg-red bg-gray-100 text-gray-600 flex justify-center items-center mr-2"> <task.icon size="16" className="mr-2" />  {task.sector} </span>
+  
             <span className="text-xs px-2 py-1 w-30">
                <PriorityBadge priority={task.priority} />
            </span>
             
          </div>
            
-           <span className="absolute right-4 bottom-4 text-xs text-gray-500">
+           <span className="absolute right-4 bottom-4.5 text-xs text-gray-500 rounded bg-gray-100 p-2 py-1">
                {formatDate(task.createdAt)}
            </span>
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { SquareLibrary ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
+import { CircleDashed ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
@@ -23,17 +23,17 @@ type Task = TaskData & {
   status: 'todo' | 'inProgress' | 'done' | 'backlog';
   createdAt: Date;
   sector: string;
+  icon: React.ComponentType;
 }
 
 // Main dashboard
 
-export default function Dashboard() {
+  export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [tasks, setTasks ] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedCol, setSelectedCol] = useState<string | null >(null);
-
 
 
   const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
@@ -45,12 +45,27 @@ export default function Dashboard() {
     setIsModalOpen(true);
    }
 
+   const getIconByCol = (columnsId:string) => {
+    switch(columnsId) {
+      case 'backlog': 
+      return CircleDashed;
+      case "todo": 
+      return Circle;
+      case "inProgress":
+      return Badge
+      case "done":
+      return BadgeCheck;
+      default: return Circle;
+    }
+   };
+
   const handleTaskSubmit = (TaskData: TaskData) => {
     console.log("Données : ", TaskData);
 
     const newTask: Task = {
       ...TaskData,
       id: Date.now().toString(),
+      icon: getIconByCol(selectedCol!),
       sector: selectedCol as "",
       status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
       createdAt: new Date(),
@@ -75,7 +90,7 @@ export default function Dashboard() {
 
           <div className="absolute right-0 ml-2 flex items-center space-x-4">
 
-            <span className="text-gray-400 text-sm font-bold cursor-pointer">Filter</span>
+            <span className="text-gray-400 text-sm font-medium cursor-pointer">Filter</span>
             
           <button 
           onClick={() => setIsModalOpen(true)}
@@ -94,7 +109,7 @@ export default function Dashboard() {
       <KanbanCol
       id="backlog"
       title="Backlog"
-      Icon={SquareLibrary}
+      Icon={CircleDashed}
       count={todoTasks.length}
       onAddTask={handleAddTask} 
       >
