@@ -3,9 +3,9 @@
 import Modal from "../Modal";
 import { Calendar, Flag, FileText, Clock } from "lucide-react";
 import { useFormatDate } from "@/app/utils/convertDate";
-import PriorityBadge from "./PriorityBadge";
+import PriorityBadge from "../../ui/PriorityBadge";
 import { Task } from "./TaskCard";
-import SectorBadge from "./SectorBadge";
+import SectorBadge from "../../ui/SectorBadge";
 
 export type Priority = 'low' | 'medium' | 'high';
 
@@ -30,21 +30,21 @@ export default function TaskDetailModal({ task, isOpen, onClose }: TaskDetailMod
               <div className="flex items-center gap-3">
 
              <PriorityBadge priority={task.priority} />
-              <SectorBadge task.sector}  /> 
+              <span className="sector-badge"><SectorBadge sector={task.sector} /> </span>
              </div>
           </div>
             
             <div>
-                <h4 className="text-sm font-medium uppercase tracking-wide text-muted-foreground text-gray-500 mb-2"> 
+                <h4 className="text-sm  text-gray-500 font-medium uppercase tracking-wide mb-2"> 
                 Description
                 </h4>
-                <p className="text-sm text-foreground leading-relaxed">
+                <p className="text-sm  leading-relaxed">
                     {task.description}
                 </p>
             </div>
 
             <div>
-                <h4 className="text-gray-500 text-sm  font-medium uppercase  mb-2">
+                <h4 className="text-gray-500 text-sm font-medium uppercase  mb-2">
                 Contributors
                 </h4>
 
