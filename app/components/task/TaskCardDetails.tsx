@@ -1,10 +1,11 @@
 'use client'
 
 import Modal from "../Modal";
-import { Calendar, Flag, FileText } from "lucide-react";
+import { Calendar, Flag, FileText, Clock } from "lucide-react";
 import { useFormatDate } from "@/app/utils/convertDate";
 import PriorityBadge from "./PriorityBadge";
 import { Task } from "./TaskCard";
+import SectorBadge from "./SectorBadge";
 
 export type Priority = 'low' | 'medium' | 'high';
 
@@ -23,59 +24,42 @@ export default function TaskDetailModal({ task, isOpen, onClose }: TaskDetailMod
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <div className="space-y-6">
-                {/* Header */}
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">{task.title}</h2>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span className="flex items-center gap-1">
-                            <Calendar size={16} />
-                            Créé le {formatDate(task.createdAt, true)}
-                        </span>
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                            task.status === 'todo' ? 'bg-gray-100 text-gray-700' :
-                            task.status === 'inProgress' ? 'bg-blue-100 text-blue-700' :
-                            'bg-green-100 text-green-700'
-                        }`}>
-                            {task.status === 'todo' ? 'À faire' :
-                             task.status === 'inProgress' ? 'En cours' : 'Terminé'}
-                        </span>
-                    </div>
-                </div>
+            <div className="space-y-6 p-3 py-3">
+              <h2 className="text-foreground font-bold "> {task.title} </h2>
+                <div className="space-y-6 mt-2">
+              <div className="flex items-center gap-3">
 
-                {/* Description */}
-                {task.description && (
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <FileText size={18} className="text-gray-600" />
-                            <h3 className="font-semibold text-gray-900">Description</h3>
-                        </div>
-                        <p className="text-gray-700 pl-6">{task.description}</p>
-                    </div>
-                )}
-
-                {/* Priority */}
-                <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <Flag size={18} className="text-gray-600" />
-                        <h3 className="font-semibold text-gray-900">Priorité</h3>
-                    </div>
-                    <span className="text-sm px-3 py-1 rounded bg-blue-100 text-blue-800 ml-6">
-                        <PriorityBadge priority={task.priority} />
-                    </span>
-                </div>
-
-                {/* Date */}
-                {task.date && (
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <Calendar size={18} className="text-gray-600" />
-                            <h3 className="font-semibold text-gray-900">Date</h3>
-                        </div>
-                        <p className="text-gray-700 pl-6">{task.date}</p>
-                    </div>
-                )}
+             <PriorityBadge priority={task.priority} />
+              <SectorBadge task.sector}  /> 
+             </div>
+          </div>
+            
+            <div>
+                <h4 className="text-sm font-medium uppercase tracking-wide text-muted-foreground text-gray-500 mb-2"> 
+                Description
+                </h4>
+                <p className="text-sm text-foreground leading-relaxed">
+                    {task.description}
+                </p>
             </div>
+
+            <div>
+                <h4 className="text-gray-500 text-sm  font-medium uppercase  mb-2">
+                Contributors
+                </h4>
+
+            </div>
+
+             <div className="absolute bottom-4 flex">
+                <div>
+                 <div className="border-t w-[420px] mb-2 text-gray-300"></div>
+                <span className="text-sm inline-flex mr-2 text-gray-500 leading-relaxed"><Clock  className="mr-2 mt-0.5" size={18}/> Created  {formatDate(task.createdAt)}</span> 
+             </div>
+            </div>
+            
+
+                </div>
+
         </Modal>
     );
 }
