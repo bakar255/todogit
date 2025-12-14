@@ -5,11 +5,13 @@ import { useState } from "react";
 
 // export type TaskPriority = 'low' | 'medium' |'high';
 
+type Priority = 'low' | 'medium' | 'high';
+
 interface TaskProps {
   onSubmit: (taskData: {
     title: string;
     description: string;
-    priority: string;
+    priority: Priority;
     date: string;
   }) => void; 
   onClose: () => void;
@@ -21,7 +23,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
 
     const [title, setTitle ] = useState("");
     const [description, setDescription] = useState("");
-    const [priority,  setPriority] = useState("high");
+    const [priority,  setPriority] = useState<Priority>("high");
     const [date, setDate ] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -85,7 +87,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
               name="priority" 
               id="priority"
               value={priority}
-              onChange={(e) => setPriority(e.target.value)}
+              onChange={(e) => setPriority(e.target.value as Priority)}
               className="w-full px-2 py-3 border rounded-lg border-gray-300"
             >
               <option value="low">Low</option>

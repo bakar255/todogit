@@ -1,5 +1,6 @@
 // Hook formater date.
 export function useFormatDate() {
+  
   const formatDate = (date?: Date | string, includeYear: boolean = false) => {
     const dateObj =
       date instanceof Date ? date : date ? new Date(date) : new Date();
