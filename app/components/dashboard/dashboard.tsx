@@ -10,11 +10,12 @@ import TaskDetailModal from "../task/TaskCardDetails";
 import { kanbanColumns } from "./kanbanCol";
 
 type Priority = 'low' | 'medium' | 'high';
+type Sector = 'todo' | 'inProgress' | 'done' | 'backlog';
 
 type TaskData = {
   title: string;
   description: string;
-  priority: string;
+  priority: Priority;
   date: string;
 };
 
@@ -22,12 +23,11 @@ type Task = TaskData & {
   id: string;
   status: 'todo' | 'inProgress' | 'done' | 'backlog';
   createdAt: Date;
-  sector: string;
+  sector: Sector;
   icon: React.ComponentType;
 }
 
 // Main dashboard
-
   export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
@@ -66,7 +66,7 @@ type Task = TaskData & {
       ...TaskData,
       id: Date.now().toString(),
       icon: getIconByCol(selectedCol!),
-      sector: selectedCol as "",
+      sector: selectedCol as Sector,
       status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
       createdAt: new Date(),
     }
@@ -80,6 +80,13 @@ type Task = TaskData & {
   const taskInProgress = tasks.filter (task => task.status === 'inProgress');
   const taskDone = tasks.filter (task => task.status === 'done');
   const taskBacklog = tasks.filter( task => task.status === 'backlog');
+
+  const columns = [
+    { id: 'backlog', title: 'Backlog', icon: CircleDashed, tasks: taskBacklog },
+    { id: 'todo', title: 'Todo', icon: Circle, tasks: todoTasks },
+    { id: 'inProgress', title: 'In progress', icon: Badge, tasks: taskInProgress },
+    { id: 'done', title: 'Done', icon: BadgeCheck, tasks: taskDone },
+  ];
 
   return (
 
@@ -105,56 +112,22 @@ type Task = TaskData & {
 
       <div className="flex cols-span-3 space-x-4 t-4 justify-center">
 
-
-      <KanbanCol
-      id="backlog"
-      title="Backlog"
-      Icon={CircleDashed}
-      count={todoTasks.length}
-      onAddTask={handleAddTask} 
-      >
-        {taskBacklog.map(task => (
-          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
+        {columns.map(col => (
+          <KanbanCol
+            key={col.id}
+            id={col.id}
+            title={col.title}
+            Icon={col.icon}
+            count={col.tasks.length}
+            onAddTask={handleAddTask}
+          >
+            {col.tasks.map(task => (
+              <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
+            ))}
+          </KanbanCol>
         ))}
-      </KanbanCol>
 
-      <KanbanCol
-      id="todo"
-      title="Todo"
-      Icon={Circle}
-      count={todoTasks.length}
-      onAddTask={handleAddTask}
-      >
-        {todoTasks.map(task => (
-          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
-        ))}
-      </KanbanCol>
-
-      <KanbanCol
-      id="inProgress"
-      title="In progress"
-      Icon={Badge}
-      count={taskInProgress.length}
-      onAddTask={handleAddTask}
-      >
-        {taskInProgress.map(task => (
-          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)} />
-        ))}
-      </KanbanCol>
-
-      <KanbanCol
-      id="done"
-      title="Done" 
-      Icon={BadgeCheck}
-      count={taskDone.length}
-      onAddTask={handleAddTask}
-      >
-        {taskDone.map(task => (
-          <TaskCard key={task.id} task={task} onTouch={() => taskOpen(task)}/>
-        ))}
-      </KanbanCol>
-
-     </div>
+      </div>
         
       <Modal
         isOpen={isModalOpen}
