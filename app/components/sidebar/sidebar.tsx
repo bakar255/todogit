@@ -1,7 +1,7 @@
 import { Grid2X2, User,  Calendar, ChartSpline, Settings2 } from "lucide-react"
 import SidebarHeader from "./sidebarHeader";
 const Icons = [
-    {id: 1, icon: Grid2X2, objet: "Roadmap"},
+    {id: 1, icon: Grid2X2, objet: "Board"},
     {id: 2, icon: User, objet: "Backlog"},
     {id: 3, icon: Calendar, objet: "Calendar"},
     {id: 4, icon: ChartSpline, objet: "Graphique"},

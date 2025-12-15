@@ -1,5 +1,5 @@
 import Dashboard from "./components/dashboard/dashboard";
-import DashboardLayout from "./components/dashboard/DashboardLayout";
+import DashboardLayout from "./components/layout/DashboardLayout";
 
 export default function Home() {
   

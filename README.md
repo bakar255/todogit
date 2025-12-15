@@ -8,9 +8,3 @@ A beautiful dashboard where can overview your tasks.
 
 
 
-``
-KanbanColumns      
-      -> TaskCard 
-             -> TaskContent
-
-``

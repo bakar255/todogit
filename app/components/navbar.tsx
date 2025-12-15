@@ -1,14 +1,18 @@
  'use client'
 
 import { useFormatDate } from "../utils/convertDate";
-import { User, Bell, Search, Calendar} from "lucide-react"
+import { User, Bell, Search, Calendar, PanelRight} from "lucide-react"
 
 
 export default function Navbar() {
   const formatDate = useFormatDate();
 
   return (
-    <div className="w-full h-16 flex items-center justify-end px-6">
+    <div className="w-full h-16 flex items-center justify-end px-6 border border-gray-200 relative">
+
+      <div className="absolute left-4.5 items-center">
+        <PanelRight size={22} className="cursor-pointer"/>
+      </div>
 
         <div className="space-x-5 mr-3 flex">
         <Search size={20} className="cursor-pointer" />
