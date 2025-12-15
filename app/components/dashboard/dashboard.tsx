@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleDashed ,Circle, Badge, BadgeCheck, Plus } from "lucide-react";
+import { CircleDashed ,Circle, Badge, BadgeCheck, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
@@ -8,6 +8,7 @@ import TaskForm from "../task/TaskForm";
 import TaskCard from "../task/TaskCard";
 import TaskDetailModal from "../task/TaskCardDetails";
 import { kanbanColumns } from "./kanbanCol";
+import { Button } from "@/app/ui/Button";
 
 type Priority = 'low' | 'medium' | 'high';
 type Sector = 'todo' | 'inProgress' | 'done' | 'backlog';
@@ -90,27 +91,50 @@ type Task = TaskData & {
 
   return (
 
-    <div className="pt-6">
+    <div className="">
 
       <div className="flex items-center space-x-5 relative">
-        <button className=""> Board View</button>
 
-          <div className="absolute right-0 ml-2 flex items-center space-x-4">
-
-            <span className="text-gray-400 text-sm font-medium cursor-pointer">Filter</span>
-            
-          <button 
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center cursor-pointer rounded-full bg-blue-600/30 shadow-lg text-white px-2 py-2"
-          >  
-           <Plus size={20} className="" /></button>
          
-         </div>
       </div>
 
-      <div className="border border-gray-300 mt-4 w-full rounded-full "></div>
+          {/* Panel board */}
+          <div className="flex px-16 border-b border-gray-200 h-16 items-center justify-end space-x-5">
+  
+           {/* Label Input  */}
+          <div className=" flex items-center ">
+            <input type="text" 
+            className="flex  placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-9 w-[180px] rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background" />
+           <Search/>
+        </div>
 
-      <div className="flex cols-span-3 space-x-4 t-4 justify-center">
+          {/* Label priority filter */}
+        <div className=" rounded-md px-4 py-2 bg-gray-100 cursor-pointer ">  
+          <label htmlFor="" className=" text-sm w-32">
+
+            <select name="" id="">
+             
+            <option value="Highest">Priority</option>
+            <option value="Highest">Highest</option>
+            <option value="Medium">Medium</option>
+            <option value="Lowest>">Lowest</option>
+            </select>
+          </label>
+        </div>
+
+          <button 
+          onClick={() => handleAddTask('todo')}
+          className="flex items-center text-sm cursor-pointer rounded bg-blue-400 shadow-lg text-foreground px-4 py-2"
+          >  
+           <Plus size={20} className="text-foreground" /> Add New Task</button>
+         
+
+            <div>
+
+              </div>
+       </div>
+
+      <div className=" ml-10 flex cols-span-3 space-x-2 t-4 mt-5">
 
         {columns.map(col => (
           <KanbanCol

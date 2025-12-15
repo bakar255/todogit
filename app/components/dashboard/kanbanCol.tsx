@@ -24,10 +24,19 @@ export default function KanbanCol({children, id, count, title, onAddTask, Icon}:
         <div className="kanban-col relative w-full max-w-md mt-4 ">
           <div className="flex items-center w-full mb-4">
 
-          <div className="flex space-x-3 ml-3">
-           <Icon size={20} className="mb-1" />
-           <span className="text-sm font-medium text-foreground ml-5"> {title} </span>
+
+          <div className="flex space-x-2 justify-between rounded-t-2xl px-3 py-3 bg-gray-100 w-full ">
+
+          <div className=" space-x-2">
+             <span className="text-sm font-medium text-foreground ml-2"> {title} </span>
              <span className="rounded bg-gray-200 text-xs text-muted-foreground px-1.5 py-0.5 "> {count} </span>
+          </div>
+
+           <div className="ml-25">
+              <button onClick={() => onAddTask?.(id)} className="cursor-pointer">
+                <Plus size={16} className="right-0" />
+              </button>
+            </div>
             {/* For each count of tasks */}
           </div>
 
