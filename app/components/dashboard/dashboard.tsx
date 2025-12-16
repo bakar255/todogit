@@ -9,6 +9,7 @@ import TaskCard from "../task/TaskCard";
 import TaskDetailModal from "../task/TaskCardDetails";
 import { kanbanColumns } from "./kanbanCol";
 import { Button } from "@/app/ui/Button";
+import LabelTask from "../task/labels/LabelTask";
 
 type Priority = 'low' | 'medium' | 'high';
 type Sector = 'todo' | 'inProgress' | 'done' | 'backlog';
@@ -35,7 +36,7 @@ type Task = TaskData & {
   const [tasks, setTasks ] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedCol, setSelectedCol] = useState<string | null >(null);
-
+  const [filterPriority, setFilterPriority] = useState("");
 
   const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
     setSelectedTask(task);
@@ -77,63 +78,27 @@ type Task = TaskData & {
     setIsModalOpen(false);
   }
 
-  const todoTasks = tasks.filter(task => task.status === 'todo');
-  const taskInProgress = tasks.filter (task => task.status === 'inProgress');
-  const taskDone = tasks.filter (task => task.status === 'done');
-  const taskBacklog = tasks.filter( task => task.status === 'backlog');
+  const taskBacklog = tasks.filter( task => task.status === 'backlog' && (!filterPriority || task.priority === filterPriority));
+  const todoTasksFiltered = tasks.filter(task => task.status === 'todo' && (!filterPriority || task.priority === filterPriority));
+  const taskInProgressFiltered = tasks.filter (task => task.status === 'inProgress' && (!filterPriority || task.priority === filterPriority));
+  const taskDoneFiltered = tasks.filter (task => task.status === 'done' && (!filterPriority || task.priority === filterPriority));
 
   const columns = [
     { id: 'backlog', title: 'Backlog', icon: CircleDashed, tasks: taskBacklog },
-    { id: 'todo', title: 'Todo', icon: Circle, tasks: todoTasks },
-    { id: 'inProgress', title: 'In progress', icon: Badge, tasks: taskInProgress },
-    { id: 'done', title: 'Done', icon: BadgeCheck, tasks: taskDone },
+    { id: 'todo', title: 'Todo', icon: Circle, tasks: todoTasksFiltered },
+    { id: 'inProgress', title: 'In progress', icon: Badge, tasks: taskInProgressFiltered },
+    { id: 'done', title: 'Done', icon: BadgeCheck, tasks: taskDoneFiltered },
   ];
 
   return (
 
-    <div className="">
+    <div>
 
+     {/* Panel board */}
       <div className="flex items-center space-x-5 relative">
-
-         
+         <LabelTask onAddTask={() => handleAddTask('todo')} FilterPropriety={setFilterPriority} />
       </div>
-
-          {/* Panel board */}
-          <div className="flex px-16 border-b border-gray-200 h-16 items-center justify-end space-x-5">
-  
-           {/* Label Input  */}
-          <div className=" flex items-center ">
-            <input type="text" 
-            className="flex  placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-9 w-[180px] rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background" />
-           <Search/>
-        </div>
-
-          {/* Label priority filter */}
-        <div className=" rounded-md px-4 py-2 bg-gray-100 cursor-pointer ">  
-          <label htmlFor="" className=" text-sm w-32">
-
-            <select name="" id="">
-             
-            <option value="Highest">Priority</option>
-            <option value="Highest">Highest</option>
-            <option value="Medium">Medium</option>
-            <option value="Lowest>">Lowest</option>
-            </select>
-          </label>
-        </div>
-
-          <button 
-          onClick={() => handleAddTask('todo')}
-          className="flex items-center text-sm cursor-pointer rounded bg-blue-400 shadow-lg text-foreground px-4 py-2"
-          >  
-           <Plus size={20} className="text-foreground" /> Add New Task</button>
          
-
-            <div>
-
-              </div>
-       </div>
-
       <div className=" ml-10 flex cols-span-3 space-x-2 t-4 mt-5">
 
         {columns.map(col => (
