@@ -99,7 +99,7 @@ type Task = TaskData & {
          <LabelTask onAddTask={() => handleAddTask('todo')} FilterPropriety={setFilterPriority} />
       </div>
          
-      <div className=" ml-10 flex cols-span-3 space-x-2 t-4 mt-5">
+      <div className="px-4 flex w-full justify-center space-x-4 mt-5">
 
         {columns.map(col => (
           <KanbanCol

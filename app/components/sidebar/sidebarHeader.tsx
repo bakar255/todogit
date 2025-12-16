@@ -3,6 +3,12 @@ import Image from "next/image";
 // Function to display orgs's information in the sidebar
 
 export default function SidebarHeader() {
+  const currentDate = new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
   
   return (
     <div className="w-full px-2 mb-4">
@@ -13,6 +19,7 @@ export default function SidebarHeader() {
         <div className="flex flex-col py-4">
           <span className="text-sm font-semibold text-gray-900">Beyond Gravity</span>
           <span className="text-xs text-gray-500">Software project</span>
+          <span className="text-xs text-gray-400">{currentDate}</span>
         </div>
       </div>
      

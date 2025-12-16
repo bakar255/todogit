@@ -7,7 +7,7 @@ interface PriorityProps {
 
 const priorityMap: Record<Priority, { class: string; label: string }> = {
     low: { 
-      class: 'text-xs px-2 py-1 text-white border border-blue-200 rounded bg-green-400', 
+      class: 'text-xs px-2 py-1 text-white border border-blue-200 rounded bg-green-800', 
       label: 'Low' 
     },
     medium: { 

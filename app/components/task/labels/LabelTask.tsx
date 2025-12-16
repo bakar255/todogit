@@ -15,10 +15,8 @@ export default function LabelTask({onAddTask, FilterPropriety}: LabelProps) {
 
     const [selectedOption, setSelectedOption] = useState("");
 
-
-          return (
-                     <div className="flex px-16 border-b border-gray-200 h-16 items-center justify-end space-x-5">
-
+              return (
+             <div className="flex w-full px-16 border-b border-gray-200 h-16 items-center justify-end space-x-5">
                       {/* Display task card  */}
                         <div className="bg-gray-200 px-2 rounded-sm space-x-1 py-1 items-center ">
                             <button className="focus:bg-white text-foreground cursor-pointer rounded-sm px-1 py-1 "> <Kanban  size={19}/> </button>

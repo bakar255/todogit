@@ -25,6 +25,9 @@ export default function Sidebar() {
               <span>{item.objet}</span>
             </button>
           ))}
+            <div className="absolute bottom-4 w-full rounded ">
+
+            </div>
         </nav>
       </aside>
 

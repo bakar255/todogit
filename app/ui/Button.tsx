@@ -7,7 +7,6 @@ interface ButtonProps
         onClick: () => void;
     }
 
-
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({title, className="", onClick, ...props }, ref) => {
         return (
