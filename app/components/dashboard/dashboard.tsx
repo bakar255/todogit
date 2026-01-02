@@ -5,7 +5,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import KanbanCol from "./kanbanCol";
 import TaskForm from "../task/TaskForm";
-import TaskCard from "../task/TaskCard";
+import TaskCard, { Task as TaskCardTask } from "../task/TaskCard";
 import TaskDetailModal from "../task/TaskCardDetails";
 import { kanbanColumns } from "./kanbanCol";
 import { Button } from "@/app/ui/Button";
@@ -22,7 +22,8 @@ type TaskData = {
   date: string;
 };
 
-type Task = TaskData & {
+// Internal task type for storage (can have string dates from localStorage)
+type TaskStorage = TaskData & {
   id: string;
   status: 'todo' | 'inProgress' | 'done' | 'backlog';
   createdAt: Date | string;
@@ -31,24 +32,34 @@ type Task = TaskData & {
 }
 
 // Helper function to convert date strings back to Date objects
-const normalizeTasks = (tasks: Task[]): Task[] => {
-  return tasks.map(task => ({
-    ...task,
-    createdAt: typeof task.createdAt === 'string' ? new Date(task.createdAt) : task.createdAt
-  }));
+const normalizeTasks = (tasks: TaskStorage[]): TaskCardTask[] => {
+  return tasks.map(task => {
+    let createdAt: Date;
+    if (typeof task.createdAt === 'string') {
+      createdAt = new Date(task.createdAt);
+    } else if (task.createdAt instanceof Date) {
+      createdAt = task.createdAt;
+    } else {
+      createdAt = new Date();
+    }
+    return {
+      ...task,
+      createdAt
+    } as TaskCardTask;
+  });
 };
 
 // Main dashboard
   export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [tasks, setTasks] = useLocalStorage<TaskStorage[]>('tasks', []);
+  const [selectedTask, setSelectedTask] = useState<TaskCardTask | null>(null);
   const [selectedCol, setSelectedCol] = useState<string | null >(null);
   const [filterPriority, setFilterPriority] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
+  const taskOpen = (task: TaskCardTask | null) => {  // TaskCardDetails open tasks
     setSelectedTask(task);
   }
 
@@ -91,7 +102,7 @@ const normalizeTasks = (tasks: Task[]): Task[] => {
       setIsEditing(false);
     } else {
       // Create new task
-      const newTask: Task = {
+      const newTask: TaskStorage = {
         ...TaskData,
         id: Date.now().toString(),
         icon: getIconByCol(selectedCol!),
@@ -107,7 +118,7 @@ const normalizeTasks = (tasks: Task[]): Task[] => {
     setSelectedCol(null);
   }
 
-  const handleEditTask = (task: Task) => {
+  const handleEditTask = (task: TaskCardTask) => {
     setSelectedTask(task);
     setSelectedCol(task.status);
     setIsEditing(true);
