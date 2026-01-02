@@ -1,7 +1,7 @@
 'use client'
 
 import { Ellipsis, GripHorizontal, Grip } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // export type TaskPriority = 'low' | 'medium' |'high';
 
@@ -15,16 +15,27 @@ interface TaskProps {
     date: string;
   }) => void; 
   onClose: () => void;
+  task?: {
+    id: string;
+    title: string;
+    description: string;
+    priority: Priority;
+    date: string;
+    status: 'todo' | 'inProgress' | 'done' | 'backlog';
+    sector: string;
+    createdAt: Date | string;
+    icon: React.ComponentType;
+  } | null;
 }
 
 // Task Form for handling tasks submissions from users, including title, priority, description, dueDate etc.
 
-export default function TaskForm({ onClose, onSubmit }: TaskProps) {
+export default function TaskForm({ onClose, onSubmit, task }: TaskProps) {
 
-    const [title, setTitle ] = useState("");
-    const [description, setDescription] = useState("");
-    const [priority,  setPriority] = useState<Priority>("high");
-    const [date, setDate ] = useState("");
+    const [title, setTitle ] = useState(task?.title || "");
+    const [description, setDescription] = useState(task?.description || "");
+    const [priority,  setPriority] = useState<Priority>(task?.priority || "high");
+    const [date, setDate ] = useState(task?.date || "");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -46,7 +57,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
 
     return (
         <div className="mt-4">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Créer une nouvelle tâche</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">{task ? "Modifier la tâche" : "Créer une nouvelle tâche"}</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -122,7 +133,7 @@ export default function TaskForm({ onClose, onSubmit }: TaskProps) {
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Créer la tâche
+              {task ? "Enregistrer les modifications" : "Créer la tâche"}
             </button>
           </div>
         </form>

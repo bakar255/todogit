@@ -10,6 +10,7 @@ import TaskDetailModal from "../task/TaskCardDetails";
 import { kanbanColumns } from "./kanbanCol";
 import { Button } from "@/app/ui/Button";
 import LabelTask from "../task/labels/LabelTask";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 
 type Priority = 'low' | 'medium' | 'high';
 type Sector = 'todo' | 'inProgress' | 'done' | 'backlog';
@@ -24,19 +25,28 @@ type TaskData = {
 type Task = TaskData & {
   id: string;
   status: 'todo' | 'inProgress' | 'done' | 'backlog';
-  createdAt: Date;
+  createdAt: Date | string;
   sector: Sector;
   icon: React.ComponentType;
 }
+
+// Helper function to convert date strings back to Date objects
+const normalizeTasks = (tasks: Task[]): Task[] => {
+  return tasks.map(task => ({
+    ...task,
+    createdAt: typeof task.createdAt === 'string' ? new Date(task.createdAt) : task.createdAt
+  }));
+};
 
 // Main dashboard
   export default function Dashboard() {
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [tasks, setTasks ] = useState<Task[]>([]);
+  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedCol, setSelectedCol] = useState<string | null >(null);
   const [filterPriority, setFilterPriority] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const taskOpen = (task:Task | null) => {  // TaskCardDetails open tasks
     setSelectedTask(task);
@@ -64,24 +74,73 @@ type Task = TaskData & {
   const handleTaskSubmit = (TaskData: TaskData) => {
     console.log("Données : ", TaskData);
 
-    const newTask: Task = {
-      ...TaskData,
-      id: Date.now().toString(),
-      icon: getIconByCol(selectedCol!),
-      sector: selectedCol as Sector,
-      status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
-      createdAt: new Date(),
+    if (isEditing && selectedTask) {
+      // Update existing task
+      const updatedTasks = tasks.map(task => 
+        task.id === selectedTask.id 
+          ? {
+              ...task,
+              ...TaskData,
+              icon: getIconByCol(selectedCol!),
+              sector: selectedCol as Sector,
+              status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
+            }
+          : task
+      );
+      setTasks(updatedTasks);
+      setIsEditing(false);
+    } else {
+      // Create new task
+      const newTask: Task = {
+        ...TaskData,
+        id: Date.now().toString(),
+        icon: getIconByCol(selectedCol!),
+        sector: selectedCol as Sector,
+        status: selectedCol as 'todo' | 'inProgress' | 'done' | 'backlog',
+        createdAt: new Date(),
+      }
+      setTasks([...tasks, newTask]);
     }
-    // Add lists 
-    setTasks([...tasks, newTask]);
 
     setIsModalOpen(false);
+    setSelectedTask(null);
+    setSelectedCol(null);
   }
 
-  const taskBacklog = tasks.filter( task => task.status === 'backlog' && (!filterPriority || task.priority === filterPriority));
-  const todoTasksFiltered = tasks.filter(task => task.status === 'todo' && (!filterPriority || task.priority === filterPriority));
-  const taskInProgressFiltered = tasks.filter (task => task.status === 'inProgress' && (!filterPriority || task.priority === filterPriority));
-  const taskDoneFiltered = tasks.filter (task => task.status === 'done' && (!filterPriority || task.priority === filterPriority));
+  const handleEditTask = (task: Task) => {
+    setSelectedTask(task);
+    setSelectedCol(task.status);
+    setIsEditing(true);
+    setIsModalOpen(true);
+  }
+
+  const handleDeleteTask = (taskId: string) => {
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    setTasks(updatedTasks);
+    setSelectedTask(null);
+  }
+
+  const handleMoveTask = (taskId: string, newStatus: 'todo' | 'inProgress' | 'done' | 'backlog') => {
+    const updatedTasks = tasks.map(task => 
+      task.id === taskId 
+        ? {
+            ...task,
+            status: newStatus,
+            sector: newStatus,
+            icon: getIconByCol(newStatus),
+          }
+        : task
+    );
+    setTasks(updatedTasks);
+  }
+
+  // Normalize tasks to ensure dates are Date objects
+  const normalizedTasks = normalizeTasks(tasks);
+
+  const taskBacklog = normalizedTasks.filter( task => task.status === 'backlog' && (!filterPriority || task.priority === filterPriority));
+  const todoTasksFiltered = normalizedTasks.filter(task => task.status === 'todo' && (!filterPriority || task.priority === filterPriority));
+  const taskInProgressFiltered = normalizedTasks.filter (task => task.status === 'inProgress' && (!filterPriority || task.priority === filterPriority));
+  const taskDoneFiltered = normalizedTasks.filter (task => task.status === 'done' && (!filterPriority || task.priority === filterPriority));
 
   const columns = [
     { id: 'backlog', title: 'Backlog', icon: CircleDashed, tasks: taskBacklog },
@@ -120,11 +179,22 @@ type Task = TaskData & {
         
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)} 
+        onClose={() => {
+          setIsModalOpen(false);
+          setIsEditing(false);
+          setSelectedTask(null);
+          setSelectedCol(null);
+        }} 
       >
       <TaskForm
-      onClose={() => setIsModalOpen(false)}
+      onClose={() => {
+        setIsModalOpen(false);
+        setIsEditing(false);
+        setSelectedTask(null);
+        setSelectedCol(null);
+      }}
       onSubmit={handleTaskSubmit}
+      task={isEditing ? selectedTask : null}
       /> 
 
       </Modal>
@@ -133,6 +203,9 @@ type Task = TaskData & {
       task={selectedTask}
       isOpen={!!selectedTask}
       onClose={() => taskOpen(null)}
+      onEdit={handleEditTask}
+      onDelete={handleDeleteTask}
+      onMove={handleMoveTask}
       >
 
       </TaskDetailModal>
