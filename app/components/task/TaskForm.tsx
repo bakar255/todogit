@@ -37,6 +37,15 @@ export default function TaskForm({ onClose, onSubmit, task }: TaskProps) {
     const [priority,  setPriority] = useState<Priority>(task?.priority || "high");
     const [date, setDate ] = useState(task?.date || "");
 
+    useEffect(() => {
+      if (task) {
+        setTitle(task.title);
+        setDescription(task.description);
+        setPriority(task.priority);
+        setDate(task.date);
+      }
+    }, [task]);
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
